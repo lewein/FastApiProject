@@ -1,0 +1,17 @@
+#fastapi~=0.76.0
+fastapi
+redis
+uvicorn~=0.17.6
+pydantic
+python-dotenv
+databases
+asyncpg
+sqlmodel
+alembic
+uuid
+python-multipart
+
+python-jose
+passlib
+bcrypt
+itsdangerous

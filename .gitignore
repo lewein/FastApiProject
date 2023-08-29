@@ -1,0 +1,5 @@
+venv
+pgdata
+.env.config
+Improvment_task
+docker_compose.yml
