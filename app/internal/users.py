@@ -43,16 +43,16 @@ async def update_user(name_user: str, cursor: AsyncSession):
     pass
 
 
-async def update_user_password(name_user: str, password: str, cursor: AsyncSession):
+async def update_user_password(cursor: AsyncSession, name_user: str, new_pwd: str, old_pwd: str = None):
     user = await get_user_by_name(name_user=name_user, cursor=cursor)
     try:
-        user['update_date'] = datetime.now()
-        old_pwd = user.get('hashed_pdw')
-        if not old_pwd or verify_password(password, old_pwd):
+        user.update_date = datetime.now()
+        old_pwd_db = user.hashed_pwd
+        if not old_pwd_db or verify_password(old_pwd, old_pwd_db):
             await cursor.execute(
                 update(UserModel).
                 where(UserModel.name_user == name_user).
-                values({'hashed_pwd': get_password_hash(password)})
+                values({'hashed_pwd': get_password_hash(new_pwd)})
             )
         else:
             HTTP_ERROR(message='Passwords do not match')

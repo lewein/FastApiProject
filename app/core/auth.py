@@ -3,6 +3,7 @@ from typing import Annotated
 
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, status
+from sqlalchemy.ext.asyncio import AsyncSession
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 

@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db.schemas import UserModel, UserModelOut
 from app.core.database import get_session
-from app.internal.users import add_user, get_user_by_name, get_all_users, update_user_by_name
+from app.internal.users import add_user, get_user_by_name, get_all_users, update_user_by_name, update_user_password
 
 router = APIRouter()
 
@@ -30,9 +30,16 @@ async def create_user(user: dict, cursor: AsyncSession = Depends(get_session)):
         return response
 
 
-@router.put("/update_user/", tags=["users"])
+@router.patch("/update_user/", tags=["users"])
 async def update_user(user: dict, cursor: AsyncSession = Depends(get_session)):
     response = await update_user_by_name(user, cursor)
+    if response:
+        return response
+
+
+@router.patch("/update_user_pwd/", tags=["users"])
+async def update_user_pwd(user: dict, cursor: AsyncSession = Depends(get_session)):
+    response = await update_user_password(cursor, **user)
     if response:
         return response
 
